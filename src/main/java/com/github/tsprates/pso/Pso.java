@@ -862,13 +862,13 @@ public class Pso
      */
     private String criarCondicao()
     {
-        final int numOper = LISTA_OPERADORES.length;
         final int numCols = colunas.size();
 
         final int colIndex = (int) Math.floor( numCols * random.nextDouble() );
-        final int operIndex = (int) Math.floor( numOper * random.nextDouble() );
 
         final double prob = 0.9;
+        
+        
 
         String valor;
 
@@ -895,9 +895,36 @@ public class Pso
         }
 
         String col = colunas.get( colIndex );
-        String oper = LISTA_OPERADORES[operIndex];
+        String oper = LISTA_OPERADORES[selecionaIndiceListaOperadores()];
 
         return formatarCondicaoWhere( col, oper, valor );
+    }
+    
+    /**
+     * Seleciona o índice da lista de operadores a partir de um número aleatório.
+     * 
+     * @return Inteiro indicando qual índice da lista usar.
+     */
+    
+    public int selecionaIndiceListaOperadores()
+    {
+    	int operadorIndex = 0;
+    	final double rand = random.nextDouble();
+        
+        if ( rand <= 0.22 )
+        	operadorIndex = 0;
+        else if ( rand > 0.22 && rand <= 0.44)
+        	operadorIndex = 1;
+        else if ( rand > 0.44 && rand <= 0.66 )
+        	operadorIndex = 2;
+        else if ( rand > 0.66 && rand <= 0.88)
+        	operadorIndex = 3;
+        else if ( rand > 0.88 && rand <= 0.94)
+        	operadorIndex = 4;
+        else
+        	operadorIndex = 5;
+        
+        return operadorIndex;
     }
 
     /**
