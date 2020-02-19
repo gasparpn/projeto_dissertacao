@@ -25,7 +25,7 @@ public class DB
     /**
      * Senha do banco de dados.
      */
-    public final static String PASSWORD = "admin";
+    public final static String PASSWORD = "";
 
     /**
      * Conexão banco de dados.

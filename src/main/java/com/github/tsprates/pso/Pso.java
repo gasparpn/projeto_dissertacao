@@ -510,6 +510,7 @@ public class Pso
         if ( random.nextDouble() < 0.5 )
         {
             pos.add( criarCondicao() );
+            alteraClasse(p);
         }
         else
         {
@@ -544,6 +545,47 @@ public class Pso
         }
 
         p.setPosicao( pos );
+    }
+    
+    /**
+     * Mutação de class.
+     *
+     * @param particula
+     * @return
+     */
+    private void alteraClasse(Particula particula)
+    {
+        final String novaClasse = obtemClasseAleatoria();
+        if(novaClasseMelhoraFitness(particula, novaClasse))
+        {
+        	// final String nova = particula.classe();
+        	particula.setClasse(novaClasse);
+        }
+    }
+    
+    private String obtemClasseAleatoria()
+    {
+    	final int rand = (int) random.nextDouble() * classes.size();
+        final Object[] classesArray = classes.toArray();
+        final String novaClasse = classesArray[rand].toString();
+        return novaClasse;
+    }
+    
+    /**
+     * Verifica se o fitness da partícula é mais adequado para nova classe
+     * @return boolean
+     */
+    private boolean novaClasseMelhoraFitness(Particula particula, String novaClasse)
+    {
+    	Particula particulaAuxiliar = particula;
+    	double[] fitnessAntigo = particula.fitness();
+    	particulaAuxiliar.setClasse(novaClasse);
+    	double[] fitnessAtual = particulaAuxiliar.fitness();
+    	if(fitnessAtual[0] > fitnessAntigo[0])
+    	{
+    		return true;
+    	}
+    	return false;
     }
 
     /**
@@ -910,19 +952,17 @@ public class Pso
     {
     	int operadorIndex = 0;
     	final double rand = random.nextDouble();
+    	//{ 0.0, 0.22, 0.44, 0.66, 0.88, 0.94, 1.0 };
+    	//{ ">", ">=", "<", ">=", "!=", "=" };
         
-        if ( rand <= 0.22 )
+        if ( rand <= 0.44 )
         	operadorIndex = 0;
-        else if ( rand > 0.22 && rand <= 0.44)
+        else if ( rand <= 0.66)
         	operadorIndex = 1;
-        else if ( rand > 0.44 && rand <= 0.66 )
+        else if ( rand <= 0.88 )
         	operadorIndex = 2;
-        else if ( rand > 0.66 && rand <= 0.88)
-        	operadorIndex = 3;
-        else if ( rand > 0.88 && rand <= 0.94)
-        	operadorIndex = 4;
         else
-        	operadorIndex = 5;
+        	operadorIndex = 3;
         
         return operadorIndex;
     }
